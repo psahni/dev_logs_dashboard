@@ -1,0 +1,47 @@
+# ── Database ──────────────────────────────────────────────────────────────────
+dev-digest.db
+dev-digest.db-shm
+dev-digest.db-wal
+
+# ── Python ────────────────────────────────────────────────────────────────────
+__pycache__/
+*.py[cod]
+*.pyo
+.venv/
+.env
+.env.*
+!.env.example
+*.egg-info/
+dist/
+build/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+htmlcov/
+.coverage
+
+# ── uv ────────────────────────────────────────────────────────────────────────
+# Keep pyproject.toml and uv.lock (both should be committed).
+# Keep alembic/versions/ (migrations must be committed).
+
+# ── Node / Next.js ────────────────────────────────────────────────────────────
+node_modules/
+.next/
+out/
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# ── OS ────────────────────────────────────────────────────────────────────────
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# ── Editors ───────────────────────────────────────────────────────────────────
+.idea/
+*.swp
+*.swo
