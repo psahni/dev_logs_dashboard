@@ -47,11 +47,11 @@ Execute tasks one by one using `/build`. Do not start a task until all tasks abo
 
 ## Frontend
 
-- [ ] **Scaffold the Next.js project**
+- [x] **Scaffold the Next.js project**
   `frontend/package.json`, `frontend/tsconfig.json`, `frontend/next.config.ts`, `frontend/tailwind.config.ts`, `frontend/src/app/layout.tsx`
   Initialise Next.js 16.2 with TypeScript strict and Tailwind CSS v4; do NOT add drizzle-orm or better-sqlite3; create the root layout with global Tailwind styles.
 
-- [ ] **Write the shared `LogEntry` type**
+- [x] **Write the shared `LogEntry` type**
   `frontend/src/lib/types.ts`
   Export `LogEntry` with fields `id`, `title`, `description`, `tags`, `created_at` (string); imported by every component and API helper.
 

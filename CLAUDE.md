@@ -184,6 +184,15 @@ full prompt templates.
 | `.claude/hooks/pre-commit.md`     | Pre-commit hook documentation                |
 
 
+## Response Conventions
+
+After completing any `/build` task or code change, always end the response with a short summary covering:
+- Which files were created or modified
+- What was done in each file
+- Which follow-on tasks are now unblocked
+
+---
+
 ## Starting the Full Stack Locally
 1. cd frontend && npm run dev                                        (port 3000)
 2. cd backend && uv run uvicorn app.main:app --reload --port 8000   (port 8000)
