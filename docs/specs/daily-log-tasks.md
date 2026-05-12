@@ -55,31 +55,31 @@ Execute tasks one by one using `/build`. Do not start a task until all tasks abo
   `frontend/src/lib/types.ts`
   Export `LogEntry` with fields `id`, `title`, `description`, `tags`, `created_at` (string); imported by every component and API helper.
 
-- [ ] **Write the API fetch helpers**
+- [x] **Write the API fetch helpers**
   `frontend/src/lib/api.ts`
   Implement `getLogs()` and `createLog()`; base URL from `NEXT_PUBLIC_API_URL` defaulting to `http://localhost:8000`; throw on non-ok responses; return typed `LogEntry` or `LogEntry[]`.
 
-- [ ] **Build the `TagChip` UI component**
+- [x] **Build the `TagChip` UI component**
   `frontend/src/components/ui/TagChip.tsx`
   Render a single Tailwind pill badge; accept `{ tag: string }` props; no state.
 
-- [ ] **Build the `LogCard` component**
+- [x] **Build the `LogCard` component**
   `frontend/src/components/features/LogCard.tsx`
   Render title, formatted date, description, and a row of `<TagChip>` elements; split `log.tags` on `','`, filter empty strings; accept `{ log: LogEntry }` props.
 
-- [ ] **Build the `LogList` component**
+- [x] **Build the `LogList` component**
   `frontend/src/components/features/LogList.tsx`
   Render an ordered list of `<LogCard>` components; show empty-state message when `logs.length === 0`; accept `{ logs: LogEntry[] }` props.
 
-- [ ] **Build the `NewLogModal` component**
+- [x] **Build the `NewLogModal` component**
   `frontend/src/components/features/NewLogModal.tsx`
   Client Component with controlled form fields (title, description, tags), client-side required validation, calls `createLog()` on submit, calls `onSuccess(created)` then `onClose()` on success, displays inline error on failure; plain `<textarea>` for description.
 
-- [ ] **Build the `LogDashboard` component**
+- [x] **Build the `LogDashboard` component**
   `frontend/src/components/features/LogDashboard.tsx`
   Client Component owning `logs` state (initialised from `initialLogs`) and `isModalOpen` boolean; renders header, "New Log" button, `<LogList>`, and `<NewLogModal>`; `onLogCreated` prepends the new entry to state.
 
-- [ ] **Build the dashboard page**
+- [x] **Build the dashboard page**
   `frontend/src/app/page.tsx`
   Server Component; calls `getLogs()` server-side at request time; passes result to `<LogDashboard initialLogs={logs} />`; this is the app's only route.
 
