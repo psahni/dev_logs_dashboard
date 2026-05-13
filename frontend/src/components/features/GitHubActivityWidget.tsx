@@ -33,7 +33,7 @@ function PRIcon({ state }: { state: string }) {
 function RepoBadge({ repo }: { repo: string }) {
   const short = repo.split("/").pop() ?? repo;
   return (
-    <span className="rounded bg-zinc-100 px-1.5 py-0.5 text-xs text-zinc-500">
+    <span className="font-accent rounded bg-zinc-100 px-1.5 py-0.5 text-xs text-zinc-500">
       {short}
     </span>
   );
@@ -82,7 +82,7 @@ export default function GitHubActivityWidget({ initialCommits, initialPulls }: P
         <button
           onClick={handleRefresh}
           disabled={loading}
-          className="rounded-md bg-zinc-100 px-3 py-1.5 text-xs font-medium text-zinc-600 hover:bg-zinc-200 disabled:opacity-50"
+          className="font-accent rounded-md bg-zinc-100 px-3 py-1.5 text-xs font-medium text-zinc-600 hover:bg-zinc-200 disabled:opacity-50"
         >
           {loading ? "Refreshing…" : "Refresh"}
         </button>
@@ -130,7 +130,7 @@ export default function GitHubActivityWidget({ initialCommits, initialPulls }: P
                     </a>
                     <div className="mt-1 flex items-center gap-2">
                       <RepoBadge repo={c.repo} />
-                      <time className="text-xs text-zinc-400">{date}</time>
+                      <time className="font-accent text-xs text-zinc-400">{date}</time>
                     </div>
                   </div>
                 </li>
@@ -153,7 +153,7 @@ export default function GitHubActivityWidget({ initialCommits, initialPulls }: P
                   <div className="mt-1 flex items-center gap-2">
                     <RepoBadge repo={p.repo} />
                     <span className="text-xs text-zinc-400 capitalize">{p.state}</span>
-                    <time className="text-xs text-zinc-400">{date}</time>
+                    <time className="font-accent text-xs text-zinc-400">{date}</time>
                   </div>
                 </div>
               </li>
