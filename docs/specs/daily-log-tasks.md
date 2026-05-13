@@ -87,11 +87,11 @@ Execute tasks one by one using `/build`. Do not start a task until all tasks abo
 
 ## MCP
 
-- [ ] **Scaffold the MCP server project**
+- [x] **Scaffold the MCP server project**
   `mcp-server/pyproject.toml`, `mcp-server/server.py`
   Run `uv init` in `mcp-server/`; add `fastmcp` and `httpx` via `uv add`; create the `FastMCP("dev-digest")` instance in `server.py`.
 
-- [ ] **Implement `create_log` and `get_logs` MCP tools**
+- [x] **Implement `create_log` and `get_logs` MCP tools**
   `mcp-server/server.py`
   Add `@mcp.tool()` async functions: `create_log(title, description, tags="")` calling `POST :8000/logs` and `get_logs()` calling `GET :8000/logs`; use `httpx.AsyncClient`; read base URL from `BACKEND_URL` env var defaulting to `http://localhost:8000`.
 
