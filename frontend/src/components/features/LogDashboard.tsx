@@ -26,7 +26,7 @@ export default function LogDashboard({ initialLogs, initialCommits, initialPulls
         <h1 className="text-2xl font-bold text-zinc-900">Dev Logs</h1>
         <button
           onClick={() => setIsModalOpen(true)}
-          className="rounded-md bg-indigo-600 px-4 py-2 text-sm font-medium text-white hover:bg-indigo-700"
+          className="font-accent rounded-md bg-indigo-600 px-4 py-2 text-sm font-medium text-white hover:bg-indigo-700"
         >
           + New Log
         </button>
