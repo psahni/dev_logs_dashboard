@@ -16,7 +16,8 @@ if config.config_file_name is not None:
 
 # Import Base and all models so autogenerate can detect schema changes.
 from app.database import Base
-import app.models.log  # noqa: F401 — registers Log with Base.metadata
+import app.models.log     # noqa: F401 — registers Log with Base.metadata
+import app.models.github  # noqa: F401 — registers GitHubCacheItem with Base.metadata
 
 target_metadata = Base.metadata
 
