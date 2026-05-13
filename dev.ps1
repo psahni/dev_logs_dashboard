@@ -1,13 +1,27 @@
+param(
+    [ValidateSet("start", "stop")]
+    [string]$Action = "start"
+)
+
 $root = Split-Path -Parent $MyInvocation.MyCommand.Path
 
-# If bash is available (Git Bash / WSL), delegate to dev.sh
-$bash = Get-Command bash -ErrorAction SilentlyContinue
-if ($bash) {
-    & bash "$root/dev.sh"
+if ($Action -eq "stop") {
+    Write-Host "Stopping Dev Digest..." -ForegroundColor Cyan
+
+    Get-Process -Name "python" -ErrorAction SilentlyContinue | Stop-Process -Force -ErrorAction SilentlyContinue
+    Write-Host "  Backend stopped." -ForegroundColor Yellow
+
+    Get-Process -Name "node" -ErrorAction SilentlyContinue | Stop-Process -Force -ErrorAction SilentlyContinue
+    # Also kill any process holding port 3000 (Next.js long-running dev server)
+    $port3000 = netstat -ano | Select-String ":3000 " | ForEach-Object { ($_ -split "\s+")[-1] } | Select-Object -First 1
+    if ($port3000) { taskkill /PID $port3000 /F 2>$null | Out-Null }
+    Write-Host "  Frontend stopped." -ForegroundColor Yellow
+
+    Write-Host "Done." -ForegroundColor Green
     exit
 }
 
-# Native Windows fallback — opens two cmd windows
+# start
 Write-Host "Starting Dev Digest..." -ForegroundColor Cyan
 
 Start-Process cmd -ArgumentList "/k cd /d `"$root\backend`" && uv run uvicorn app.main:app --reload --port 8000"
