@@ -5,6 +5,7 @@ import type { GitHubCommit, GitHubPR, LogEntry } from "@/lib/types";
 import LogList from "./LogList";
 import NewLogModal from "./NewLogModal";
 import GitHubActivityWidget from "./GitHubActivityWidget";
+import GeneratePanel from "./GeneratePanel";
 
 type Props = {
   initialLogs: LogEntry[];
@@ -30,6 +31,11 @@ export default function LogDashboard({ initialLogs, initialCommits, initialPulls
         >
           + New Log
         </button>
+      </div>
+
+      <div className="mb-6 flex gap-3">
+        <GeneratePanel type="standup" label="Generate Standup" />
+        <GeneratePanel type="confluence" label="Generate Confluence Doc" />
       </div>
 
       <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">

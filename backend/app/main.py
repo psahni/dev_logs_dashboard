@@ -4,6 +4,7 @@ load_dotenv()
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
+from app.routes.generate import router as generate_router
 from app.routes.github import router as github_router
 from app.routes.logs import router as logs_router
 
@@ -18,3 +19,4 @@ app.add_middleware(
 
 app.include_router(logs_router)
 app.include_router(github_router)
+app.include_router(generate_router)
