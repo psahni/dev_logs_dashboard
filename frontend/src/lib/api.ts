@@ -35,3 +35,23 @@ export async function getPulls(refresh = false): Promise<GitHubPR[]> {
   if (!res.ok) throw new Error(`Failed to fetch pull requests: ${res.status}`);
   return res.json();
 }
+
+export async function generateConfluence(): Promise<string> {
+  const res = await fetch(`${BASE}/generate/confluence`, {
+    method: "POST",
+    cache: "no-store",
+  });
+  if (!res.ok) throw new Error(`Failed to generate Confluence doc: ${res.status}`);
+  const data = await res.json();
+  return data.content;
+}
+
+export async function generateStandup(): Promise<string> {
+  const res = await fetch(`${BASE}/generate/standup`, {
+    method: "POST",
+    cache: "no-store",
+  });
+  if (!res.ok) throw new Error(`Failed to generate standup: ${res.status}`);
+  const data = await res.json();
+  return data.content;
+}
