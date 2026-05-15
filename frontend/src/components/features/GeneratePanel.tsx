@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useTransition } from "react";
 import { generateConfluence, generateStandup } from "@/lib/api";
 
 type Props = {
@@ -10,23 +10,22 @@ type Props = {
 
 export default function GeneratePanel({ type, label }: Props) {
   const [output, setOutput] = useState<string | null>(null);
-  const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [copied, setCopied] = useState(false);
+  const [isPending, startTransition] = useTransition();
 
-  async function handleGenerate() {
-    setLoading(true);
-    setError(null);
-    try {
-      const content = type === "confluence"
-        ? await generateConfluence()
-        : await generateStandup();
-      setOutput(content);
-    } catch (err) {
-      setError(err instanceof Error ? err.message : "Generation failed");
-    } finally {
-      setLoading(false);
-    }
+  function handleGenerate() {
+    startTransition(async () => {
+      setError(null);
+      try {
+        const content = type === "confluence"
+          ? await generateConfluence()
+          : await generateStandup();
+        setOutput(content);
+      } catch (err) {
+        setError(err instanceof Error ? err.message : "Generation failed");
+      }
+    });
   }
 
   async function handleCopy() {
@@ -40,10 +39,10 @@ export default function GeneratePanel({ type, label }: Props) {
     <div className="flex-1">
       <button
         onClick={handleGenerate}
-        disabled={loading}
+        disabled={isPending}
         className="font-accent w-full rounded-md border border-zinc-300 bg-white px-4 py-2 text-sm font-medium text-zinc-700 hover:bg-zinc-50 disabled:opacity-50"
       >
-        {loading ? "Generating…" : label}
+        {isPending ? "Generating…" : label}
       </button>
 
       {error && (
@@ -52,7 +51,7 @@ export default function GeneratePanel({ type, label }: Props) {
         </div>
       )}
 
-      {output && !loading && (
+      {output && !isPending && (
         <div className="mt-3">
           <div className="flex items-center justify-between pb-1">
             <span className="text-xs text-zinc-400">Output</span>
