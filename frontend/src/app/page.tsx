@@ -3,7 +3,7 @@ import HomeView from "@/components/views/HomeView";
 
 export default async function HomePage() {
   const [logs, commits, pulls] = await Promise.all([
-    getLogs(),
+    getLogs().catch(() => []),
     getCommits().catch(() => []),
     getPulls().catch(() => []),
   ]);
