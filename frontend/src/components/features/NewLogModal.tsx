@@ -113,7 +113,7 @@ export default function NewLogModal({ onSuccess, onClose }: Props) {
             <button
               type="submit"
               disabled={submitting}
-              className="font-accent rounded-md bg-indigo-600 px-4 py-2 text-sm font-medium text-white hover:bg-indigo-700 disabled:opacity-50"
+              className="fo1nt-accent rounded-md bg-indigo-600 px-4 py-2 text-sm font-medium text-white hover:bg-indigo-700 disabled:opacity-50"
             >
               {submitting ? "Saving…" : "Save Log"}
             </button>

@@ -1,22 +1,18 @@
 import type { Metadata } from "next";
-import { Lora, Roboto, Roboto_Mono, JetBrains_Mono } from "next/font/google";
+import { Instrument_Serif, Geist, JetBrains_Mono } from "next/font/google";
+import ThemeProvider from "@/components/providers/ThemeProvider";
+import Sidebar from "@/components/layout/Sidebar";
 import "./globals.css";
 
-const roboto = Roboto({
-  variable: "--font-roboto",
+const instrumentSerif = Instrument_Serif({
+  variable: "--font-instrument-serif",
   subsets: ["latin"],
-  weight: ["400", "500", "700"],
+  weight: "400",
   display: "swap",
 });
 
-const lora = Lora({
-  variable: "--font-lora",
-  subsets: ["latin"],
-  display: "swap",
-});
-
-const robotoMono = Roboto_Mono({
-  variable: "--font-roboto-mono",
+const geist = Geist({
+  variable: "--font-geist",
   subsets: ["latin"],
   display: "swap",
 });
@@ -28,7 +24,7 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Dev Digest",
+  title: "DevPulse",
   description: "Personal developer dashboard",
 };
 
@@ -40,9 +36,17 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${roboto.variable} ${lora.variable} ${robotoMono.variable} ${jetbrainsMono.variable} h-full antialiased`}
+      data-theme="light"
+      className={`${instrumentSerif.variable} ${geist.variable} ${jetbrainsMono.variable}`}
     >
-      <body className="min-h-full flex flex-col">{children}</body>
+      <body>
+        <ThemeProvider>
+          <div className="app-shell">
+            <Sidebar />
+            <main className="main-content">{children}</main>
+          </div>
+        </ThemeProvider>
+      </body>
     </html>
   );
 }
