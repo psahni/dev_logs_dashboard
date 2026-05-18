@@ -1,7 +1,3 @@
-"use client";
-
-import { useEffect, useState } from "react";
-import { getPulls } from "@/lib/api";
 import type { GitHubPR } from "@/lib/types";
 import FeedItem, { type FeedItemData } from "@/components/ui/FeedItem";
 
@@ -26,18 +22,9 @@ function groupPRs(pulls: GitHubPR[]): Group[] {
   ];
 }
 
-export default function PullRequestsView() {
-  const [pulls, setPulls] = useState<GitHubPR[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+type Props = { pulls: GitHubPR[] };
 
-  useEffect(() => {
-    getPulls()
-      .then(setPulls)
-      .catch(() => setError("Failed to load pull requests."))
-      .finally(() => setLoading(false));
-  }, []);
-
+export default function PullRequestsView({ pulls }: Props) {
   const groups = groupPRs(pulls);
 
   return (
@@ -47,25 +34,20 @@ export default function PullRequestsView() {
         <p className="page-subtitle">GitHub pull requests by status</p>
       </div>
 
-      {loading && <p className="page-subtitle">Loading…</p>}
-      {error && <div className="error-banner">{error}</div>}
-
-      {!loading && !error && (
-        <div style={{ display: "flex", flexDirection: "column", gap: "2rem" }}>
-          {groups.map((group) => (
-            <div key={group.heading}>
-              <h2 className="section-title">{group.heading}</h2>
-              <div className="feed">
-                {group.items.length === 0 ? (
-                  <div className="empty-state">None</div>
-                ) : (
-                  group.items.map((p, i) => <FeedItem key={i} item={prToFeed(p)} />)
-                )}
-              </div>
+      <div style={{ display: "flex", flexDirection: "column", gap: "2rem" }}>
+        {groups.map((group) => (
+          <div key={group.heading}>
+            <h2 className="section-title">{group.heading}</h2>
+            <div className="feed">
+              {group.items.length === 0 ? (
+                <div className="empty-state">None</div>
+              ) : (
+                group.items.map((p, i) => <FeedItem key={i} item={prToFeed(p)} />)
+              )}
             </div>
-          ))}
-        </div>
-      )}
+          </div>
+        ))}
+      </div>
     </div>
   );
 }

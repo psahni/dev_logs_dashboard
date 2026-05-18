@@ -1,7 +1,5 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { getLogs, getCommits, getPulls } from "@/lib/api";
 import type { LogEntry, GitHubCommit, GitHubPR } from "@/lib/types";
 import FeedItem, { type FeedItemData } from "@/components/ui/FeedItem";
 
@@ -42,57 +40,35 @@ function pullsToFeed(pulls: GitHubPR[]): FeedItemData[] {
   }));
 }
 
-export default function HomeView() {
-  const [feed, setFeed] = useState<FeedItemData[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+type Props = {
+  logs: LogEntry[];
+  commits: GitHubCommit[];
+  pulls: GitHubPR[];
+};
 
-  useEffect(() => {
-    async function load() {
-      try {
-        const [logs, commits, pulls] = await Promise.all([
-          getLogs(),
-          getCommits(),
-          getPulls(),
-        ]);
-        const merged = [
-          ...logsToFeed(logs),
-          ...commitsToFeed(commits),
-          ...pullsToFeed(pulls),
-        ].sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
-        setFeed(merged);
-      } catch {
-        setError("Failed to load activity. Is the backend running?");
-      } finally {
-        setLoading(false);
-      }
-    }
-    load();
-  }, []);
+export default function HomeView({ logs, commits, pulls }: Props) {
+  const feed = [
+    ...logsToFeed(logs),
+    ...commitsToFeed(commits),
+    ...pullsToFeed(pulls),
+  ].sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
 
   return (
     <div>
       <div className="page-header">
         <h1 className="page-title">{getGreeting()}, Prashant</h1>
-        {!loading && !error && (
-          <p className="page-subtitle">
-            {feed.length} update{feed.length !== 1 ? "s" : ""} across your workspace
-          </p>
-        )}
+        <p className="page-subtitle">
+          {feed.length} update{feed.length !== 1 ? "s" : ""} across your workspace
+        </p>
       </div>
 
-      {loading && <p className="page-subtitle">Loading activity…</p>}
-      {error && <div className="error-banner">{error}</div>}
-
-      {!loading && !error && (
-        <div className="feed">
-          {feed.length === 0 ? (
-            <div className="empty-state">No activity yet. Start logging!</div>
-          ) : (
-            feed.map((item, i) => <FeedItem key={i} item={item} />)
-          )}
-        </div>
-      )}
+      <div className="feed">
+        {feed.length === 0 ? (
+          <div className="empty-state">No activity yet. Start logging!</div>
+        ) : (
+          feed.map((item, i) => <FeedItem key={i} item={item} />)
+        )}
+      </div>
     </div>
   );
 }

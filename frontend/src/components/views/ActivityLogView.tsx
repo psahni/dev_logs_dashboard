@@ -1,7 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { getLogs } from "@/lib/api";
+import { useState } from "react";
 import type { LogEntry } from "@/lib/types";
 import FeedItem, { type FeedItemData } from "@/components/ui/FeedItem";
 import NewLogModal from "@/components/features/NewLogModal";
@@ -15,18 +14,11 @@ function logToFeed(log: LogEntry): FeedItemData {
   };
 }
 
-export default function ActivityLogView() {
-  const [logs, setLogs] = useState<LogEntry[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-  const [showModal, setShowModal] = useState(false);
+type Props = { initialLogs: LogEntry[] };
 
-  useEffect(() => {
-    getLogs()
-      .then(setLogs)
-      .catch(() => setError("Failed to load logs."))
-      .finally(() => setLoading(false));
-  }, []);
+export default function ActivityLogView({ initialLogs }: Props) {
+  const [logs, setLogs] = useState<LogEntry[]>(initialLogs);
+  const [showModal, setShowModal] = useState(false);
 
   return (
     <div>
@@ -40,18 +32,13 @@ export default function ActivityLogView() {
         </button>
       </div>
 
-      {loading && <p className="page-subtitle">Loading…</p>}
-      {error && <div className="error-banner">{error}</div>}
-
-      {!loading && !error && (
-        <div className="feed">
-          {logs.length === 0 ? (
-            <div className="empty-state">No logs yet. Create your first entry!</div>
-          ) : (
-            logs.map((log) => <FeedItem key={log.id} item={logToFeed(log)} />)
-          )}
-        </div>
-      )}
+      <div className="feed">
+        {logs.length === 0 ? (
+          <div className="empty-state">No logs yet. Create your first entry!</div>
+        ) : (
+          logs.map((log) => <FeedItem key={log.id} item={logToFeed(log)} />)
+        )}
+      </div>
 
       {showModal && (
         <NewLogModal

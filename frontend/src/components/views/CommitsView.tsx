@@ -1,7 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { getCommits } from "@/lib/api";
+import { useState } from "react";
 import type { GitHubCommit } from "@/lib/types";
 import FeedItem, { type FeedItemData } from "@/components/ui/FeedItem";
 
@@ -15,18 +14,10 @@ function commitToFeed(c: GitHubCommit): FeedItemData {
   };
 }
 
-export default function CommitsView() {
-  const [commits, setCommits] = useState<GitHubCommit[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-  const [query, setQuery] = useState("");
+type Props = { commits: GitHubCommit[] };
 
-  useEffect(() => {
-    getCommits()
-      .then(setCommits)
-      .catch(() => setError("Failed to load commits."))
-      .finally(() => setLoading(false));
-  }, []);
+export default function CommitsView({ commits }: Props) {
+  const [query, setQuery] = useState("");
 
   const filtered = commits.filter(
     (c) =>
@@ -49,20 +40,15 @@ export default function CommitsView() {
         onChange={(e) => setQuery(e.target.value)}
       />
 
-      {loading && <p className="page-subtitle">Loading…</p>}
-      {error && <div className="error-banner">{error}</div>}
-
-      {!loading && !error && (
-        <div className="feed">
-          {filtered.length === 0 ? (
-            <div className="empty-state">
-              {query ? "No commits match your search." : "No commits found."}
-            </div>
-          ) : (
-            filtered.map((c, i) => <FeedItem key={i} item={commitToFeed(c)} />)
-          )}
-        </div>
-      )}
+      <div className="feed">
+        {filtered.length === 0 ? (
+          <div className="empty-state">
+            {query ? "No commits match your search." : "No commits found."}
+          </div>
+        ) : (
+          filtered.map((c, i) => <FeedItem key={i} item={commitToFeed(c)} />)
+        )}
+      </div>
     </div>
   );
 }
