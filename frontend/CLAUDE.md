@@ -91,6 +91,42 @@ export async function getLogs(): Promise<LogEntry[]> {
 
 ---
 
+## Data Fetching — App Router Pattern
+
+**Always fetch data in Server Components (page.tsx or layout.tsx), never in Client Components.**
+
+The correct pattern:
+
+```typescript
+// app/some-route/page.tsx  ← Server Component, async
+import { getSomeData } from "@/lib/api";
+import SomeView from "@/components/views/SomeView";
+
+export default async function SomePage() {
+  const data = await getSomeData();          // runs on server, zero client JS
+  return <SomeView data={data} />;           // passes pre-loaded data as props
+}
+```
+
+```typescript
+// components/views/SomeView.tsx  ← "use client" only if interactivity is needed
+type Props = { data: SomeType[] };
+
+export default function SomeView({ data }: Props) {
+  // no useEffect, no useState for data — it arrived as props
+}
+```
+
+**Rules:**
+- Do NOT use `useEffect` + `setState` to fetch data — this is the pages-router anti-pattern.
+- Do NOT call API helpers inside Client Components on mount.
+- `"use client"` is only justified for: user interactions (onClick, onChange), browser APIs
+  (localStorage, clipboard, Date for time-of-day), and React hooks (useState, useTransition).
+- If a view needs both server-fetched data AND client interactivity, fetch in the page and
+  pass data as props to a thin Client Component that handles only the interactive parts.
+
+---
+
 ## What NOT To Do
 
 - Do NOT import `sqlite3`, `drizzle-orm`, `better-sqlite3`, or any database library.

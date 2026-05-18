@@ -1,11 +1,11 @@
-import { getCommits, getLogs, getPulls } from "@/lib/api";
-import LogDashboard from "@/components/features/LogDashboard";
+import { getLogs, getCommits, getPulls } from "@/lib/api";
+import HomeView from "@/components/views/HomeView";
 
-export default async function Home() {
+export default async function HomePage() {
   const [logs, commits, pulls] = await Promise.all([
     getLogs(),
     getCommits().catch(() => []),
     getPulls().catch(() => []),
   ]);
-  return <LogDashboard initialLogs={logs} initialCommits={commits} initialPulls={pulls} />;
+  return <HomeView logs={logs} commits={commits} pulls={pulls} />;
 }
