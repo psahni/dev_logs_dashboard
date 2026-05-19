@@ -55,3 +55,24 @@ export async function generateStandup(): Promise<string> {
   const data = await res.json();
   return data.content;
 }
+
+export async function publishToConfluence(
+  title: string,
+  content: string
+): Promise<string> {
+  const res = await fetch(`${BASE}/confluence/publish`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ title, content }),
+  });
+  if (!res.ok) throw new Error(`Failed to publish to Confluence: ${res.status}`);
+  const data = await res.json();
+  return data.page_url;
+}
+
+export async function getConfluenceStatus(): Promise<boolean> {
+  const res = await fetch(`${BASE}/confluence/status`, { cache: "no-store" });
+  if (!res.ok) return false;
+  const data = await res.json();
+  return data.connected;
+}

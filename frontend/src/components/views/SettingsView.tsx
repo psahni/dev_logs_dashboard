@@ -6,30 +6,31 @@ type IntegrationCard = {
   connected: boolean;
 };
 
-const INTEGRATIONS: IntegrationCard[] = [
-  {
-    name: "GitHub",
-    description: "Sync commits and pull requests from your GitHub account.",
-    connected: true,
-  },
-  {
-    name: "Groq",
-    description: "AI-powered standup and doc generation via Llama 3.3.",
-    connected: true,
-  },
-  {
-    name: "Slack",
-    description: "Post standups directly to your team Slack channel.",
-    connected: false,
-  },
-  {
-    name: "Confluence",
-    description: "Publish generated docs directly to your Confluence space.",
-    connected: false,
-  },
-];
+type Props = { confluenceConnected: boolean };
 
-export default function SettingsView() {
+export default function SettingsView({ confluenceConnected }: Props) {
+  const INTEGRATIONS: IntegrationCard[] = [
+    {
+      name: "GitHub",
+      description: "Sync commits and pull requests from your GitHub account.",
+      connected: true,
+    },
+    {
+      name: "Groq",
+      description: "AI-powered standup and doc generation via Llama 3.3.",
+      connected: true,
+    },
+    {
+      name: "Slack",
+      description: "Post standups directly to your team Slack channel.",
+      connected: false,
+    },
+    {
+      name: "Confluence",
+      description: "Publish generated docs directly to your Confluence space.",
+      connected: confluenceConnected,
+    },
+  ];
   return (
     <div>
       <div className="page-header">
